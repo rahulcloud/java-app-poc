@@ -21,7 +21,7 @@ pipeline {
                 script{
                     rtServer = Artifactory.newServer url: 'https://jfrogfreerepo.jfrog.io/artifactory/', credentialsId: 'jfrog-access-token'
                     rtDocker = Artifactory.docker server: rtServer
-                    privateDockerRegistry = 'https://jfrogfreerepo.jfrog.io/artifactory/'
+                    privateDockerRegistry = 'jfrogfreerepo.jfrog.io/artifactory/'
                 }
             }
         }
