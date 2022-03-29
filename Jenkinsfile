@@ -1,5 +1,8 @@
 pipeline {
   agent any
+  parameters {
+        string (name: 'DOCKER_REPO', defaultValue: 'docker-local', description: 'Docker repository for pull/push')
+    }
   options {
     buildDiscarder(logRotator(numToKeepStr: '5'))
   }
@@ -13,16 +16,21 @@ pipeline {
         sh './mvnw clean install'
       }
     }
-    stage('Upload to Artifactory') {
-      agent {
-        docker {
-          image 'releases-docker.jfrog.io/jfrog/jfrog-cli-v2:2.2.0' 
-          reuseNode true
+	stage('Setup'){
+            steps {
+                script{
+                    rtServer = Artifactory.newServer url: 'https://jfrogfreerepo.jfrog.io/artifactory/', credentialsId: 'jfrog-access-token'
+                    rtDocker = Artifactory.docker server: rtServer
+                    privateDockerRegistry = 'https://jfrogfreerepo.jfrog.io/artifactory/'
+                }
+            }
         }
-      }
-      steps {
-        sh 'jfrog rt upload --url https://jfrogfreerepo.jfrog.io/artifactory/ --access-token ${ARTIFACTORY_ACCESS_TOKEN} target/demo-0.0.1-SNAPSHOT.jar java-web-app/'
-      }
+	stage('Create Image'){
+            steps {
+                script{
+                    def dockerImage = docker.build("${privateDockerRegistry}/${params.DOCKER_REPO}/build-${JOB_NAME}:${BUILD_NUMBER}")
+                }
+            }
+        }
     }
-  }
 }
