@@ -1,8 +1,8 @@
 FROM openjdk:10-jre-slim
 
 WORKDIR /app
-COPY ./target/<your-file>-<version>/SNAPSHOT.jar /app
+COPY ./target/demo-0.0.1-SNAPSHOT.jar /app
 
-EXPOSE 8080
+EXPOSE 8090
 
-CMD ["java", "-jar", "<your-file>-<version>/SNAPSHOT.jar"]
+CMD ["java", "-jar", "demo-0.0.1-SNAPSHOT.jar"]
