@@ -21,14 +21,14 @@ pipeline {
                 script{
                     rtServer = Artifactory.newServer url: 'https://jfrogfreerepo.jfrog.io/artifactory/', credentialsId: 'jfrog-access-token'
                     rtDocker = Artifactory.docker server: rtServer
-                    privateDockerRegistry = 'jfrogfreerepo.jfrog.io/artifactory/'
+                    privateDockerRegistry = 'jfrogfreerepo.jfrog.io/artifactory'
                 }
             }
         }
 	stage('Create Image'){
             steps {
                 script{
-                    def dockerImage = docker.build("${privateDockerRegistry}/${params.DOCKER_REPO}/build-${JOB_NAME}:${BUILD_NUMBER}")
+                    def dockerImage = docker.build("${privateDockerRegistry}/default-docker-local/${params.DOCKER_REPO}/build-${JOB_NAME}:${BUILD_NUMBER}")
                 }
             }
         }
