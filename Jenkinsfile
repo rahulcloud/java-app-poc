@@ -11,6 +11,7 @@ pipeline {
   environment {
     CI = true
     ARTIFACTORY_ACCESS_TOKEN = credentials('jfrog-access-token')
+	ARTIFACTORY_LOGIN = credentials('jfrog-creds')
   }
   stages {
     stage('Build') {
@@ -21,7 +22,7 @@ pipeline {
 	stage('Setup'){
             steps {
                 script{
-                    rtServer = Artifactory.newServer url: 'https://jfrogfreerepo.jfrog.io/artifactory/', username: 'drahulgandhi@gmail.com', password: 'Adhvay@2020'
+                    rtServer = Artifactory.newServer url: 'https://jfrogfreerepo.jfrog.io/artifactory/', username: "{ARTIFACTORY_LOGIN_USR}", password: "${ARTIFACTORY_LOGIN_PSW}"
                     rtDocker = Artifactory.docker server: rtServer
                     privateDockerRegistry = 'jfrogfreerepo.jfrog.io'
                 }
