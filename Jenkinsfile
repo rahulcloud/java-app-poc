@@ -21,7 +21,7 @@ pipeline {
 	stage('Setup'){
             steps {
                 script{
-                    rtServer = Artifactory.newServer url: 'https://jfrogfreerepo.jfrog.io/artifactory/', username: 'drahulgandhi@gmail.com', password: "${ARTIFACTORY_ACCESS_TOKEN}"
+                    rtServer = Artifactory.newServer url: 'https://jfrogfreerepo.jfrog.io/artifactory/', username: 'drahulgandhi@gmail.com', password: 'Adhvay@2020'
                     rtDocker = Artifactory.docker server: rtServer
                     privateDockerRegistry = 'jfrogfreerepo.jfrog.io/artifactory'
                 }
