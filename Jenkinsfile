@@ -1,3 +1,5 @@
+def rtServer, rtDocker, buildInfo, privateDockerRegistry
+
 pipeline {
   agent any
   parameters {
@@ -29,6 +31,13 @@ pipeline {
             steps {
                 script{
                     def dockerImage = docker.build("${privateDockerRegistry}/default-docker-local/${params.DOCKER_REPO}/build-${JOB_NAME}:${BUILD_NUMBER}")
+                }
+            }
+        }
+    stage('Deploy Docker Image to Artifactory'){
+            steps {
+                script {
+                    buildInfo = rtDocker.push "${privateDockerRegistry}/default-docker-local/${params.DOCKER_REPO}/build-${JOB_NAME}:${BUILD_NUMBER}", "${params.DOCKER_REPO}"
                 }
             }
         }
