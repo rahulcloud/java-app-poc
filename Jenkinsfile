@@ -41,5 +41,12 @@ pipeline {
                 }
             }
         }
+	stage('Publish'){
+            steps {
+                script {
+                    rtServer.publishBuildInfo buildInfo
+                }
+            }
+        }
     }
 }
